@@ -6,8 +6,14 @@
 import nbtlib
 
 
-def load(filename):
-    file = nbtlib.load(filename)
+def load(filepath: str):
+    """
+    Load a Minecraft schematic file.
+
+    :param filepath: Path of the schematic.
+    :return: None.
+    """
+    file = nbtlib.load(filepath)
     for i in file['Schematic']['Blocks']:
         print(i, end=' ')
 
