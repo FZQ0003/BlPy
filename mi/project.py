@@ -55,6 +55,7 @@ def set_background(settings: dict):
     :param settings: Data from MI projects.
     :return: None.
     """
+    # Todo: Background. (too many properties)
     pass
 
 
@@ -78,6 +79,7 @@ def load(filepath: str):
     group = add_collection(project['name'])
     # Todo: Read global timeline settings. (region)
     # Todo: Minecraft resources.
+    set_background(data['background'])
     # Todo: Items in MI use YXZ(Blender) euler.
 
 
