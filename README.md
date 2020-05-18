@@ -6,7 +6,7 @@ A series of blender python scripts by F_Qilin.
 
 To be honest, I don't know whether I can continue...
 
-**Attention: Some of the files are written in Chinese.**
+**Attention: Some of the files may be written in Chinese.**
 
 ## Script List
 
@@ -41,7 +41,7 @@ You can also create "*.ink" file.
 
 * certifi
 * chardet
-* fake-bpy-module-2.80
+* fake-bpy-module-2.80 **(Replace bpy)**
 * idna
 * nbtlib **(not in blender)**
 * numpy
