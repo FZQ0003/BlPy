@@ -16,7 +16,7 @@ def add_collection(name: str):
     """
     collection: bpy.types.Collection \
         = bpy.data.collections.new(name)
-    bpy.context.scene.collection\
+    bpy.context.scene.collection \
         .children.link(collection)
     return collection
 
@@ -75,7 +75,8 @@ def load(filepath: str):
         fps=project['tempo'],
         use_active=False
     )
-    # Todo: Read global timeline settings.
+    group = add_collection(project['name'])
+    # Todo: Read global timeline settings. (region)
     # Todo: Minecraft resources.
     # Todo: Items in MI use YXZ(Blender) euler.
 
