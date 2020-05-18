@@ -2,7 +2,7 @@
 
 Author: F_Qilin
 
-**Attention: If you are looking for Chinese version, just go to [Bilibili](https://space.bilibili.com/48122080, "This is ME!") and follow me.**
+**Attention: If you are looking for Chinese version, just go to [Bilibili](https://space.bilibili.com/48122080 "This is ME!") and follow me.**
 
 ## Features
 
