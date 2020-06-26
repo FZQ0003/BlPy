@@ -4,7 +4,7 @@
 bl_info = {
     "name": "Extrude for Voxels",
     "category": "Mesh",
-    "version": (1, 2, 2),
+    "version": (1, 3, 1),
     "blender": (2, 80, 0),
     "location": "",
     "description": "An addon of better extrusion for Minecraft voxels",
@@ -90,6 +90,15 @@ def judge_rec(verts):
     return math.isclose(a.cross(b).length, 0) and math.isclose(a.length, b.length)
 
 
+def del_useless(seq):
+    del_lis = []
+    for i in seq:
+        if len(i.link_faces) < 1:
+            del_lis.append(i)
+    for i in del_lis:
+        seq.remove(i)
+
+
 def extrude_cus(value=1 / 64, del_face=True, del_others=False, remd=True):
     me = bpy.context.object.data
     bpy.ops.object.mode_set(mode="EDIT")
@@ -148,6 +157,9 @@ def extrude_cus(value=1 / 64, del_face=True, del_others=False, remd=True):
     for i in f_lis_del:
         # f_lis_new.remove(i)
         bm.faces.remove(i)
+    # NEW: Delete useless verts & edges.
+    del_useless(bm.verts)
+    del_useless(bm.edges)
 
     bmesh.update_edit_mesh(me)
     bpy.ops.mesh.select_all(action='SELECT')
@@ -165,18 +177,32 @@ class ExtrudeCustom(bpy.types.Operator):
 
     GLOBAL_LANG = ['en_US', 'zh_CN']
 
-    try:
-        bool_lang = (
-            bpy.context.preferences.view.use_international_fonts
-            and locale.getdefaultlocale()[0] in GLOBAL_LANG
-        )
-    except AttributeError:
-        bool_lang = (
-            bpy.context.user_preferences.system.use_international_fonts
-            and locale.getdefaultlocale()[0] in GLOBAL_LANG
-        )
-    if bool_lang:
-        lang_i = GLOBAL_LANG.index(locale.getdefaultlocale()[0])
+    # NEW: Blender 2.83 LTS.
+    if hasattr(bpy.context, 'preferences'):
+        # Blender 2.8x
+        obj_sys = bpy.context.preferences.view
+        if hasattr(obj_sys, 'use_international_fonts'):
+            # Blender 2.80-2.82
+            bool_usefonts = obj_sys.use_international_fonts
+        else:
+            # Blender 2.83+
+            bool_usefonts = True
+    elif hasattr(bpy.context, 'user_preferences'):
+        # Blender 2.7x
+        obj_sys = bpy.context.user_preferences.system
+        bool_usefonts = obj_sys.use_international_fonts
+    else:
+        bool_usefonts = False
+
+    if bool_usefonts:
+        if obj_sys.language == 'DEFAULT':
+            name_lang = locale.getdefaultlocale()[0]
+        else:
+            name_lang = obj_sys.language
+        if name_lang in GLOBAL_LANG:
+            lang_i = GLOBAL_LANG.index(name_lang)
+        else:
+            lang_i = 0
     else:
         lang_i = 0
 
